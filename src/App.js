@@ -1,26 +1,28 @@
-import React from 'react';
+import React, {useState, useContext} from 'react';
 import logo from './logo.svg';
 import './App.css';
+import {observer} from 'mobx-react-lite'
+import Header from "./Components/Header";
+import Clients from "./Components/Clients/Clients";
+import Actions from './Components/Actions/Actions'
+import {ClientsConext} from './Store/ClientsStore'
+import { BrowserRouter as Router, Route, withRouter } from "react-router-dom";
 
-function App() {
+export const App = observer((props) => {
+  
+  // props.history.push('/bla')
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div className="App">
+        <Header  />
+        <Route exact path="/clients" render={() => <Clients />} />
+        <Route exact path="/actions" render={() => <Actions />} />
+        
+        {/* <TodoNew />
+        <TodoList /> */}
+      </div>
+    </Router>
   );
-}
+})
 
-export default App;
+// export default (App)

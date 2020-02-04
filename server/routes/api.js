@@ -2,22 +2,24 @@ const express = require("express");
 const router = express.Router();
 const moment = require('moment')
 // const Transaction = require("../model/s/Transaction");
-const Sequelize = require("sequelize");
-const sequelize = new Sequelize("mysql://root:123456@localhost/crm");
+const dataController = require('../controllers/dataController')
+// const Sequelize = require("sequelize");
+// const sequelize = new Sequelize("mysql://root:123456@localhost/crm");
 const data = require("./data");
-sequelize
-  .authenticate()
-  .then(() => {
-    console.log("Connection has been established successfully.");
-  })
-  .catch(err => {
-    console.error("Unable to connect to the database:", err);
-  });
+// sequelize
+//   .authenticate()
+//   .then(() => {
+//     console.log("Connection has been established successfully.");
+//   })
+//   .catch(err => {
+//     console.error("Unable to connect to the database:", err);
+//   });
   
-
-router.put('/update/transfer', (req, res) => {
-        
-})
+router.get('/allClients', dataController.getAllClients)
+router.get('/allOwners', dataController.getAllOwners)
+router.put('/transfer', dataController.changeOwner)
+router.put('/emailType', dataController.updateEmailType)
+router.put('/setSold', dataController.setSold)
 
 
 

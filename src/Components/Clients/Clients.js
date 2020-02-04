@@ -24,6 +24,7 @@ import Popup from "reactjs-popup";
 import ClientPopUp from './ClientPopUp'
 import StoreContext, {ClientStoreContext} from '../../Helpers/storeProvider'
 import {observer} from 'mobx-react-lite'
+import axios from 'axios'
 const useStyles1 = makeStyles(theme => ({
   root: {
     flexShrink: 0,
@@ -148,29 +149,29 @@ const Clients = observer((props) => {
 
     // clients2.list.forEach((client, i) => console.log(`client number ${i + 1} is `, client))
     useEffect(() => {
-        setTimeout(() => {
-            console.log("in componentDidMount: ");
-            const tempClients = []
-            data.forEach(client => tempClients.push(new ClientStore(client)))
-            clients.list = tempClients;
-            
-            // data.forEach(client => clients.addClient(client))
 
-
-
-            // let data = require('../data.json')
-            console.log(data.length);
-            // const clients2 = useContext(StoreContext)
-            // data.forEach(client => {
-            //   clients2.addClient(client)
-            // })
-            // console.log('in Clients. client is ', clients2);
-            // console.log('in Clients. list is ', clients2.list);
+      axios.get('http://localhost:4000/allClients')
+      .then(response => {
+        console.log("in componentDidMount: in first then. response is ", response);
+        const data = response.data
+        const tempClients = []
+        data.forEach(client => tempClients.push(new ClientStore(client)))
+        clients.list = tempClients;
         
-            // clients2.list.forEach((client, i) => console.log(`client number ${i + 1} is `, client))
-            // setClients(data)
-            //populate state with data
-          }, 100)
+        console.log(data.length);
+
+      })
+      
+        // setTimeout(() => {
+        //     const tempClients = []
+
+            
+
+        //     data.forEach(client => tempClients.push(new ClientStore(client)))
+        //     clients.list = tempClients;
+            
+        //     console.log(data.length);
+        //   }, 100)
     }, [])
 
     

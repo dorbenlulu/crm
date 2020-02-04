@@ -38,7 +38,7 @@ export class ClientsStore {
         this.list[index].country = newCountry
     }
 
-    findUserIdByName = (firstName, surname) => {
+    findClientIdByName = (firstName, surname) => {
         const foundClient = this.list.find(client => client.firstName === firstName && client.surname === surname)
         return foundClient;
     }

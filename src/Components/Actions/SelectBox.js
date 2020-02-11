@@ -54,7 +54,7 @@ export default function NativeSelects(props) {
           }}
         >
           <option value="" />
-        {options.map((option, i) => <option key={i} >{option}</option> )}
+        {options.map((option, i) => <option key={option.id} value={option.id}>{option.value}</option> )}
 
         </Select>
       </FormControl>

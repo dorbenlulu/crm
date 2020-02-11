@@ -25,7 +25,7 @@ export class ClientStore {
     constructor(newClient) {
         // console.log(newClient);
         
-        this.id = newClient._id 
+        this.id = newClient.id 
         this.firstName = newClient.name.split(' ')[0]
         this.surname = newClient.name.split(' ')[1]
         this.email = newClient.email

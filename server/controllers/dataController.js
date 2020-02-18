@@ -39,7 +39,7 @@ exports.getAllCountries = async (req, res, next) => {
 
 exports.changeOwner = async (req, res, next) => {
     const {clientId, newOwnerId} = req.body
-    console.log(`in changeOwner(): clientId is ${clientId}, and newOwnerName is ${newOwnerName} `);
+    console.log(`in changeOwner(): clientId is ${clientId}, and newOwnerId is ${newOwnerId} `);
     
     try {
         // const ownerId = await queries.getOwnerIdByName(newOwnerName)

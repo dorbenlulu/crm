@@ -2,14 +2,12 @@ import React, { useEffect, useState, useContext } from "react";
 import { observer } from "mobx-react-lite";
 import StoreContext, { ClientStoreContext } from "../../../Helpers/storeProvider";
 import { makeStyles } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
-import Divider from "@material-ui/core/Divider";
 import Grid from "@material-ui/core/Grid";
 import axios from "axios";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCoffee, faChartLine, faEnvelope, faUser, faGlobeAmericas } from "@fortawesome/free-solid-svg-icons";
+import { faChartLine, faEnvelope, faUser, faGlobeAmericas } from "@fortawesome/free-solid-svg-icons";
 import Badge from './Badge'
+
 const useStyles = makeStyles(theme => ({
   container: {
     display: "grid",
@@ -57,7 +55,7 @@ const Badges = observer(() => {
       const countriesObj = {};
   
       clients.list.forEach(client => {
-        if (client.emailType != "null") {
+        if (client.emailType !== "null") {
           numOfEmailSent++;
         }
         if (client.sold === 0) {
@@ -80,8 +78,7 @@ const Badges = observer(() => {
       });
       console.log(data.length);
       setState({ numOfEmailSent, numOfOutstandingClients, hottestCountry });
-    })
-    
+    }) 
   }, []);
 
 
@@ -90,7 +87,6 @@ const Badges = observer(() => {
       <Grid container spacing={2}>
         <Grid item xs={3}>
           <Paper className={classes.paper}>
-            {/* <FontAwesomeIcon icon={faChartLine} /> */}
             <Badge icon={faChartLine} numValue={""} text={""} color={"#249999"}/>
           </Paper>
         </Grid>

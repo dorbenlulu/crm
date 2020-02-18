@@ -1,9 +1,7 @@
 import React from "react";
 import Badges from "./Badges/Badges";
 import Charts from "./Charts/Charts";
-
 import { makeStyles } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 
 const useStyles = makeStyles(theme => ({
@@ -11,28 +9,20 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1
   },
   paper: {
-    // padding: theme.spacing(2),
     textAlign: "center",
     color: theme.palette.text.secondary
   },
   badges: {
-      height: "15vh",
-      // backgroundColor:"green"
+    height: "15vh"
   },
   charts: {
-      height: "85vh",
-      // backgroundColor:"green"
+    height: "85vh"
   }
 }));
 
 const Analytics = () => {
-    const classes = useStyles();
+  const classes = useStyles();
   return (
-    // <div>
-    //     <Badges />
-    //     <Charts />
-    // </div>
-    
     <div className={classes.root}>
       <Grid container spacing={3}>
         <Grid item xs={12} className={classes.badges}>

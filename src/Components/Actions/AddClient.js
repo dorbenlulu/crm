@@ -5,13 +5,12 @@ import TextField from "@material-ui/core/TextField";
 import SelectBox from "./SelectBox";
 import FormLabel from "@material-ui/core/FormLabel";
 import Button from "@material-ui/core/Button";
-import Select from 'react-select';
-import StoreContext, {ClientStoreContext} from '../../Helpers/storeProvider'
+import StoreContext from '../../Helpers/storeProvider'
 import axios from 'axios'
 
 const AddClient = observer(() => {
 
-  const [state, setState] = React.useState({
+  const [state, setState] = useState({
     firstName: "",
     surname: "",
     country: "",
@@ -22,19 +21,11 @@ const AddClient = observer(() => {
   const clients = useContext(StoreContext)
 
   useEffect(() => {
-
     axios.get('http://localhost:4000/allCountries')
     .then(response => {
       console.log("in componentDidMount: in first then. response is ", response);
       const data = response.data.map(country => country.name)
       setState({...state, countries: data})
-      // clients.setOwners(data)
-      // setOwners(data)
-        // let counter = 0
-        // clients.owners.forEach(owner => {console.log("owner is ", owner); counter++;})
-        // owners.forEach(owner => {console.log("owner is ", owner); counter++;})
-        // console.log('owners are ', owners);
-        // console.log('counter is ', counter);
     })
   }, [])
 
@@ -45,7 +36,9 @@ const AddClient = observer(() => {
       country: state.country,
       ownerId: state.owner
     }
-    const response = await axios.post('http://localhost:4000/addNewClient', clientToAdd)
+
+    await axios.post('http://localhost:4000/addNewClient', clientToAdd)
+    setState({firstName: "", surname: "", country: "", owner: "",})
   }
 
   const handleChange = event => {
@@ -70,14 +63,6 @@ const AddClient = observer(() => {
     marginLeft: "3vw"
   };
 
-  const customStyles = {
-    container: (provided, state) => ({
-      ...provided,
-      padding: 20,
-      width: "20vw"
-    })
-  }
-
   const ownerOptions = clients.owners.map(owner => {
     return {
       id: owner.id,
@@ -91,20 +76,19 @@ const AddClient = observer(() => {
       <h2 style={headerStyle}>Add Client:</h2>
       <div style={innerDivStyle}>
         <FormLabel style={labelStyle}>First Name: </FormLabel>
-        <TextField id="standard-basic" name="firstName" value={state.firstName} onChange={handleChange}/>
+        <TextField id="standard-basic1" name="firstName" value={state.firstName} onChange={handleChange}/>
       </div>
       <div style={innerDivStyle}>
         <FormLabel style={labelStyle}>Surname: </FormLabel>
-        <TextField id="standard-basic" name="surname" value={state.surname} onChange={handleChange} />
+        <TextField id="standard-basic2" name="surname" value={state.surname} onChange={handleChange} />
       </div>
       <div style={innerDivStyle}>
         <FormLabel style={labelStyle}>Country: </FormLabel>
-        <TextField id="standard-basic" name="country" value={state.country} onChange={handleChange}/>
+        <TextField id="standard-basic3" name="country" value={state.country} onChange={handleChange}/>
       </div>
       <div style={innerDivStyle}>
         <FormLabel style={labelStyle}>Owner: </FormLabel>
         <SelectBox label={"Owner"} options={ownerOptions} handleChange={handleChange} value={state.owner} name={"owner"}/>
-        {/* <TextField id="standard-basic" /> */}
         <br />
       </div>
       <div style={{position: "absolute"}}>

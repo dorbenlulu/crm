@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import {
   BarChart,
   Bar,
@@ -36,14 +36,6 @@ const TopEmployeesChart = () => {
         Top Employees
       </Typography>
 
-      {/* <BarChart width={500} height={300} data={state.topOwners} margin={{ top: 5, right: 30, left: 20, bottom: 5 }} layout="vertical">
-        <CartesianGrid strokeDasharray="3 3" />
-        <YAxis dataKey="owner_name"/>
-        <XAxis  />
-        <Tooltip />
-        <Legend />
-        <Bar dataKey="num_of_orders" fill="#8884d8"  />
-      </BarChart> */}
       <BarChart
         width={500}
         height={250}

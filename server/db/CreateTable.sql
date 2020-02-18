@@ -24,8 +24,18 @@ USE crm;
 --   ORDER BY num_of_orders desc
 
 --   Find top countries:
-  SELECT email_type.type as email_type, count(clients.name) as num_of_orders
-  FROM clients, email_type
-  WHERE clients.email_type = email_type.id AND clients.sold = 1
-  GROUP BY email_type.type
-  ORDER BY num_of_orders desc
+  -- SELECT email_type.type as email_type, count(clients.name) as num_of_orders
+  -- FROM clients, email_type
+  -- WHERE clients.email_type = email_type.id AND clients.sold = 1
+  -- GROUP BY email_type.type
+  -- ORDER BY num_of_orders desc
+
+  SELECT clients.id, clients.name, clients.email, clients.first_contact as firstContact, clients.sold, countries.name as country, owners.name as owner, email_type.type as emailType
+    FROM clients, owners, countries, email_type 
+    WHERE clients.owner_id = owners.id
+    AND clients.email_type = email_type.id
+    AND clients.country_id = countries.id
+    ORDER BY clients.id
+
+
+    -- DELETE FROM clients WHERE clients.name = "Liel Bach";

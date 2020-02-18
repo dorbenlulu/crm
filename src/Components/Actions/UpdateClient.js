@@ -50,8 +50,7 @@ const headerStyle = {
       console.log("in componentDidMount: in first then. response is ", response);
       const data = response.data
       clients.owners = data
-        let counter = 0
-        return axios.get('http://localhost:4000/allClients')
+      return axios.get('http://localhost:4000/allClients')
     })
     .then(response => {
       console.log("in componentDidMount: in first then. response is ", response);
@@ -62,7 +61,7 @@ const headerStyle = {
     })
   }, [])
 
-  const handleTransfer = (fieldToUpdate, value, route) => {
+  const handleTransfer = async (fieldToUpdate, value, route) => {
 
     // const {firstName, surname} = state
     // const clientId = clients.findClientIdByName(firstName, surname)
@@ -72,7 +71,13 @@ const headerStyle = {
     }
 
     console.log('transfer data is ', transferInfo, ' and route is ', route );
-    axios.put(`http://localhost:4000/transfer/${route}`, transferInfo);
+    try {
+      const response = await axios.put(`http://localhost:4000/${route}`, transferInfo);
+      console.log("response from server for modifying client is ", response);
+    } catch (err) {
+      console.log(err);
+      
+    }
   }
 
   const handleChange = event => {
@@ -127,11 +132,6 @@ const headerStyle = {
       <h2 style={headerStyle}>Update Client</h2>
       <div style={innerDivStyle}>
         <FormLabel style={clientLabelStyle}>Client Name:</FormLabel>
-        {/* <TextField id="standard-basic" label="Name" name={"fullName"} value={state.fullName} onChange={handleChange}/> */}
-        {/* <FixedSizeList height={400} width={300} itemSize={46} itemCount={700}>
-          {displayClients}
-        </FixedSizeList> */}
-        {/* {displayClients()} */}
         <Select name="fullName" placeholder={state.fullName} value={state.fullName} styles={customStyles} options={clients.list.map(cl => {return {id: cl.id, value: `${cl.firstName} ${cl.surname}`, label: `${cl.firstName} ${cl.surname}`}})} onChange={val => setState({...state, fullName: val.value, id: val.id})} />
       </div>
       <div style={innerDivStyle}>

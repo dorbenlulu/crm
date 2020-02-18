@@ -101,8 +101,8 @@ exports.getAllClientsFromDb = async () => {
     FROM clients, owners, countries, email_type 
     WHERE clients.owner_id = owners.id
     AND clients.email_type = email_type.id
-    AND clients.country_id = countries.id`;
-
+    AND clients.country_id = countries.id
+    ORDER BY clients.name`;
   try {
     const result = await sequelize.query(getAllClientsQuery);
     console.log(`In getAllClientsFromDb(): num of clients in db is `, result[0].length);
@@ -181,12 +181,7 @@ exports.insertNewCountry = async (countryName) => {
 }
 
 exports.findOrInsertCountry = async (countryName) => {
-  
-  const findCountryNameById = `
-  SELECT id
-  FROM countries
-  WHERE name = "${countryName}"`;
-  
+
   try {
     let countryId = await exports.findCountryIdByName(countryName);
     console.log('in findOrInsertCountry(): countryId is ', countryId);
@@ -195,9 +190,7 @@ exports.findOrInsertCountry = async (countryName) => {
     } else {
       countryId = countryId.id
     }
-    // const result = await sequelize.query(findCountryNameById);
-    // console.log(`In findOrInsertCountry(): result is `, result[0]);
-    // return result[0];
+
     return countryId
   } catch (err) {
     console.log(`In findOrInsertCountry(): error is `, err);
@@ -223,12 +216,10 @@ exports.findOwnerIdByName = async (ownerName) => {
 
 exports.addNewClientToDb = async clientToAdd => {
   const { name, ownerId, countryId } = clientToAdd;
-  // const countryId = await findCountryIdByName(country);
-  // const ownerId = await findOwnerIdByName(owner);
 
   const insertNewClientQuery = `
     INSERT INTO clients
-    VALUES(null, "${name}", "", "${moment(new Date()).format("YYYY-MM-DD HH:mm:ss")}", null, 0, ${ownerId}, ${countryId});`;
+    VALUES(null, "${name}", "No Email", "${moment(new Date()).format("YYYY-MM-DD HH:mm:ss")}", 2, 0, ${ownerId}, ${countryId});`;
 
   try {
     const result = await sequelize.query(insertNewClientQuery);

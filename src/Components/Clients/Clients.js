@@ -153,7 +153,9 @@ const Clients = observer((props) => {
       })
     }, [])
 
-    
+    const headlineStyle = {
+      fontSize: "1vw"
+    }
     return (
         <>
         {clients.list.length === 0 ? <Loader /> :
@@ -161,13 +163,13 @@ const Clients = observer((props) => {
         <Table className={classes.table} aria-label="custom pagination table">
         <TableHead>
               <TableRow >
-                <TableCell align="center">Name</TableCell>
-                <TableCell align="center">Surname</TableCell>
-                <TableCell align="center">Country</TableCell>
-                <TableCell align="center">First Contact</TableCell>
-                <TableCell align="center">Email</TableCell>
-                <TableCell align="center">Sold</TableCell>
-                <TableCell align="center">Owner</TableCell>
+                <TableCell align="center" style={headlineStyle}><b>Name</b></TableCell>
+                <TableCell align="center" style={headlineStyle}><b>Surname</b></TableCell>
+                <TableCell align="center" style={headlineStyle}><b>Country</b></TableCell>
+                <TableCell align="center" style={headlineStyle}><b>First Contact</b></TableCell>
+                <TableCell align="center" style={headlineStyle}><b>Email</b></TableCell>
+                <TableCell align="center" style={headlineStyle}><b>Sold</b></TableCell>
+                <TableCell align="center" style={headlineStyle}><b>Owner</b></TableCell>
               </TableRow>
             </TableHead>
           <TableBody>

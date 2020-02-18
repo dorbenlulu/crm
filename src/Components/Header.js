@@ -59,6 +59,7 @@ const useStyles = makeStyles(theme => ({
     <div className={classes.root}>
       <AppBar position="static">
         <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
+          <Tab label="Home" {...a11yProps(0)} onClick={() => props.history.push('/')}/>
           <Tab label="Clients" {...a11yProps(0)} onClick={() => props.history.push('/clients')}/>
           <Tab label="Actions" {...a11yProps(1)} onClick={() => props.history.push('/actions')}/>
           <Tab label="Analytics" {...a11yProps(2)} onClick={() => props.history.push('/analytics')}/>

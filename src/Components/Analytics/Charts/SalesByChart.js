@@ -2,32 +2,17 @@ import React, { useEffect, useState } from "react";
 import {
   BarChart,
   Bar,
-  Cell,
   XAxis,
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend,
-  ResponsiveContainer
+  Legend
 } from "recharts";
-import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/core/styles";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
-import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import axios from "axios";
-
-// const useStyles = makeStyles(theme => ({
-//   formControl: {
-//     margin: theme.spacing(1),
-//     minWidth: 120
-//   },
-//   selectEmpty: {
-//     marginTop: theme.spacing(2)
-//   }
-// }));
 
 const SalesByChart = () => {
   const [state, setState] = useState({
@@ -43,11 +28,7 @@ const SalesByChart = () => {
         "In componentDidMount of SalesByChart. response is ",
         response
       );
-      const {
-        salesByOwners,
-        salesByCountries,
-        salesByEmailType
-      } = response.data;
+      const { salesByOwners, salesByCountries, salesByEmailType } = response.data;
       setState({ ...state, salesByOwners, salesByCountries, salesByEmailType });
     });
   }, []);
@@ -56,15 +37,9 @@ const SalesByChart = () => {
     setState({ ...state, choice: event.target.value });
   };
 
-  const ownersKey = state.salesByOwners[0]
-    ? Object.keys(state.salesByOwners[0])[0]
-    : "0";
-  const countryKey = state.salesByCountries[0]
-    ? Object.keys(state.salesByCountries[0])[0]
-    : "0";
-  const emailTypeKey = state.salesByEmailType[0]
-    ? Object.keys(state.salesByEmailType[0])[0]
-    : "0";
+  const ownersKey = state.salesByOwners[0] ? Object.keys(state.salesByOwners[0])[0] : "0";
+  const countryKey = state.salesByCountries[0] ? Object.keys(state.salesByCountries[0])[0] : "0";
+  const emailTypeKey = state.salesByEmailType[0] ? Object.keys(state.salesByEmailType[0])[0] : "0";
 
   const dataKeys = {
     salesByOwners: ownersKey,
@@ -73,8 +48,6 @@ const SalesByChart = () => {
   };
 
   console.log("dataKeys is ", dataKeys);
-
-  //   const classes = useStyles();
   return (
     <div>
       <FormControl style={{ position: "relative", right: "38vw" }}>

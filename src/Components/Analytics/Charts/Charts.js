@@ -3,14 +3,12 @@ import TopEmployeesChart from "./TopEmployeesChart";
 import SalesByChart from "./SalesByChart";
 import ClientAquisitionChart from "./ClientAquisitionChart";
 import Grid from "@material-ui/core/Grid";
-import { ResponsiveContainer } from "recharts";
+// import { ResponsiveContainer } from "recharts";
 // import BarChart from './BarChart'
+
 const Charts = () => {
   return (
     <div>
-      {/* <TopEmployeesChart /> */}
-      {/* <SalesByChart /> */}
-      {/* <ClientAquisitionChart /> */}
       <Grid container spacing={1}>
         <Grid xs={6}>
           <Grid item><TopEmployeesChart /></Grid>

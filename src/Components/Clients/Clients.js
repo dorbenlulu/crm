@@ -139,7 +139,6 @@ const Clients = observer((props) => {
     };
 
     useEffect(() => {
-
       axios.get('http://localhost:4000/allClients')
       .then(response => {
         console.log("in componentDidMount: in first then. response is ", response);
@@ -147,9 +146,7 @@ const Clients = observer((props) => {
         const tempClients = []
         data.forEach(client => tempClients.push(new ClientStore(client)))
         clients.list = tempClients;
-        
         console.log(data.length);
-
       })
     }, [])
 

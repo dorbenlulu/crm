@@ -6,6 +6,7 @@ module.exports = (error, req, res, next) => {
   res.status(status).json({
     message,
     data,
-    validation
+    validation,
+    contentError: `Error is ${error}`
   })
 }

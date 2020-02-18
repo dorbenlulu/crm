@@ -13,6 +13,7 @@ router.put('/emailType', dataController.updateEmailType)
 router.put('/setSold', dataController.setSold)
 router.get('/salesBy', dataController.getTopSales)
 
+router.get('/errortest', (req, res) => {throw "Test error"})
 
 
 router.get('/populateClients', async (req, res) => {

@@ -15,11 +15,9 @@ router.get('/salesBy', dataController.getTopSales)
 
 
 
-
 router.get('/populateClients', async (req, res) => {
 
     for(client of data) {
-
         const findCountryId = `
         SELECT id 
         FROM countries
@@ -44,10 +42,6 @@ router.get('/populateClients', async (req, res) => {
             const emailTypeId = await sequelize.query(findEmailTypeId)
             console.log(`email type Id is `, emailTypeId[0][0].id);
             
-
-            // const isoString = client.firstContact.toString()
-            // const isoDate =  new Date(isoString)
-            // const mySQLDateString = isoDate.toJSON().slice(0, 19).replace('T', ' ');
             const insertNewClientQuery = `
             INSERT INTO clients
             VALUES(null, "${client.name}", "${client.email}", "${moment(new Date(client.firstContact)).format("YYYY-MM-DD HH:mm:ss")}", ${emailTypeId[0][0].id}, ${client.sold ? 1 : 0}, ${ownerId[0][0].id}, ${countryId[0][0].id});`
@@ -58,8 +52,6 @@ router.get('/populateClients', async (req, res) => {
             const result = await sequelize.query(insertNewClientQuery)
             console.log(`result is ${result}`);
              
-            // console.log('moment is ', moment(new Date(client.firstContact)).format('l').toString());
-            // break;
  
         } catch (err) {
             console.log(err);
@@ -69,7 +61,7 @@ router.get('/populateClients', async (req, res) => {
     }
 
     res.status(200).send("All clients inside")
-    // res.status(200).send("test paseed successfully")
+    // res.status(200).send("test passed successfully")
 })
 
 router.get("/populatedb", (req, res) => {

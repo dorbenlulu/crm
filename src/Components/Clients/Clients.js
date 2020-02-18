@@ -123,8 +123,11 @@ const Clients = observer((props) => {
     const classes = useStyles2();
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
+    
+    const clients = useContext(StoreContext)
+    const ClientStore = useContext(ClientStoreContext)
   
-    const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+    const emptyRows = rowsPerPage - Math.min(rowsPerPage, clients.list.length - page * rowsPerPage);
   
     const handleChangePage = (event, newPage) => {
       setPage(newPage);
@@ -134,20 +137,7 @@ const Clients = observer((props) => {
       setRowsPerPage(parseInt(event.target.value, 10));
       setPage(0);
     };
-    
-    const clients = useContext(StoreContext)
-    const ClientStore = useContext(ClientStoreContext)
 
-
-    
-    // const clients2 = useContext(StoreContext)
-    // data.forEach(client => {
-    //   clients2.addClient(client)
-    // })
-    // console.log('in Clients. client is ', clients2);
-    // console.log('in Clients. list is ', clients2.list);
-
-    // clients2.list.forEach((client, i) => console.log(`client number ${i + 1} is `, client))
     useEffect(() => {
 
       axios.get('http://localhost:4000/allClients')
@@ -161,17 +151,6 @@ const Clients = observer((props) => {
         console.log(data.length);
 
       })
-      
-        // setTimeout(() => {
-        //     const tempClients = []
-
-            
-
-        //     data.forEach(client => tempClients.push(new ClientStore(client)))
-        //     clients.list = tempClients;
-            
-        //     console.log(data.length);
-        //   }, 100)
     }, [])
 
     

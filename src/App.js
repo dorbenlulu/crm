@@ -13,6 +13,7 @@ import { BrowserRouter as Router, Route, withRouter } from "react-router-dom";
 export const App = observer((props) => {
   
   // props.history.push('/bla')
+  console.log("store value is ", props)
   return (
     <Router>
       <div className="App">
@@ -20,9 +21,6 @@ export const App = observer((props) => {
         <Route exact path="/clients" render={() => <Clients />} />
         <Route exact path="/actions" render={() => <Actions />} />
         <Route exact path="/analytics" render={() => <Analytics />} />
-        
-        {/* <TodoNew />
-        <TodoList /> */}
       </div>
     </Router>
   );

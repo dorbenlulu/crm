@@ -37,10 +37,8 @@ const Analytics = () => {
       <Grid container spacing={3}>
         <Grid item xs={12} className={classes.badges}>
           <Badges />
-          {/* <Paper style={{boxShadow: "none", backgroundColor:"green"}}>xs=12</Paper> */}
         </Grid>
         <Grid item xs={12} className={classes.charts}>
-          {/* <Paper style={{boxShadow: "none"}} >xs=12</Paper> */}
           <Charts />
         </Grid>
       </Grid>

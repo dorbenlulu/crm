@@ -1,10 +1,3 @@
-// const Connection = require('tedious').Connection
-// const Request = require('tedious').Request
-// const TYPES = require('tedious').TYPES
-// const config = require('../../../../../Vicki's Home Assignment/bThere-home-assignment/server/config/config')
-
-// const connection = new Connection(config.db)
-// const data = require("./data");
 const moment = require('moment')
 const Sequelize = require("sequelize");
 const sequelize = new Sequelize("mysql://root:123456@localhost/crm");

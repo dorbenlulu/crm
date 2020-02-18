@@ -39,46 +39,49 @@ const Badges = observer(() => {
     hottestCountry: ""
   });
 
-  useEffect(async () => {
-    const response = await axios.get("http://localhost:4000/allClients");
-    console.log("in componentDidMount: in first then. response is ", response);
-    let numOfEmailSent = 0,
-      numOfOutstandingClients = 0,
-      hottestCountry = "";
-
-    const data = response.data;
-    console.log("data is ", data);
-
-    const tempClients = [];
-    data.forEach(client => tempClients.push(new ClientStore(client)));
-    clients.list = tempClients;
-
-    const countriesObj = {};
-
-    clients.list.forEach(client => {
-      if (client.emailType != "null") {
-        numOfEmailSent++;
-      }
-      if (client.sold === 0) {
-        numOfOutstandingClients++;
-      }
-      if (countriesObj[client.country] !== undefined) {
-        countriesObj[client.country] += 1;
-      } else {
-        countriesObj[client.country] = 0;
-      }
-    });
-    console.log("countries object is ", countriesObj);
-    let maxVal = 0;
-
-    Object.keys(countriesObj).forEach(country => {
-      if (countriesObj[country] > maxVal) {
-        maxVal = countriesObj[country];
-        hottestCountry = country;
-      }
-    });
-    console.log(data.length);
-    setState({ numOfEmailSent, numOfOutstandingClients, hottestCountry });
+  useEffect(() => {
+    axios.get("http://localhost:4000/allClients")
+    .then(response => {
+      console.log("in componentDidMount: in first then. response is ", response);
+      let numOfEmailSent = 0,
+        numOfOutstandingClients = 0,
+        hottestCountry = "";
+  
+      const data = response.data;
+      console.log("data is ", data);
+  
+      const tempClients = [];
+      data.forEach(client => tempClients.push(new ClientStore(client)));
+      clients.list = tempClients;
+  
+      const countriesObj = {};
+  
+      clients.list.forEach(client => {
+        if (client.emailType != "null") {
+          numOfEmailSent++;
+        }
+        if (client.sold === 0) {
+          numOfOutstandingClients++;
+        }
+        if (countriesObj[client.country] !== undefined) {
+          countriesObj[client.country] += 1;
+        } else {
+          countriesObj[client.country] = 0;
+        }
+      });
+      console.log("countries object is ", countriesObj);
+      let maxVal = 0;
+  
+      Object.keys(countriesObj).forEach(country => {
+        if (countriesObj[country] > maxVal) {
+          maxVal = countriesObj[country];
+          hottestCountry = country;
+        }
+      });
+      console.log(data.length);
+      setState({ numOfEmailSent, numOfOutstandingClients, hottestCountry });
+    })
+    
   }, []);
 
 

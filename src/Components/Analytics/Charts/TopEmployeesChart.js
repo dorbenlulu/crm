@@ -60,8 +60,29 @@ const TopEmployeesChart = () => {
           fill="#3d3da4"
           layout="horizontal"
           isAnimationActive={true}
+          width={10}
         />
       </BarChart>
+      {/* <BarChart
+        data={state.topOwners}
+        layout={"vertical"}
+        margin={{
+          top: 15,
+          right: 20,
+          left: 15,
+          bottom: 5
+        }}
+      >
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis type={"number"} tick={{ fill: "black", fontSize: "10px" }} />
+        <YAxis
+          type={"category"}
+          dataKey="num_of_orders"
+          tick={{ fill: "black", fontSize: "10px" }}
+        />
+        <Tooltip />
+        <Bar dataKey="owner_name" fill="#3d3da4" width={10} />
+      </BarChart> */}
     </div>
   );
 };

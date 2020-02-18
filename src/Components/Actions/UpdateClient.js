@@ -1,21 +1,15 @@
 import React, {useEffect, useContext} from "react";
 import {observer} from 'mobx-react-lite'
-import TextField from "@material-ui/core/TextField";
 import SelectBox from "./SelectBox";
 import FormLabel from "@material-ui/core/FormLabel";
 import Button from "@material-ui/core/Button";
 import StoreContext, {ClientStoreContext} from '../../Helpers/storeProvider'
 import Loader from '../Clients/Loader/Loader'
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import { FixedSizeList } from 'react-window';
 
 import Select from 'react-select';
-// import 'react-select/dist/react-select.css';
 import axios from 'axios'
 const UpdateClient = observer(() => {
 
-  // const [owners, setOwners] = React.useState([]);
   const labelStyle = {
     color: "black",
     paddingTop: "2%"
@@ -47,7 +41,7 @@ const headerStyle = {
     chosenEmailType: "",
 
   });
-  // let owners = [];
+
   const ClientStore = useContext(ClientStoreContext)
   useEffect(() => {
 
@@ -56,13 +50,7 @@ const headerStyle = {
       console.log("in componentDidMount: in first then. response is ", response);
       const data = response.data
       clients.owners = data
-      // clients.setOwners(data)
-      // setOwners(data)
         let counter = 0
-        clients.owners.forEach(owner => {console.log("owner is ", owner); counter++;})
-        // owners.forEach(owner => {console.log("owner is ", owner); counter++;})
-        // console.log('owners are ', owners);
-        console.log('counter is ', counter);
         return axios.get('http://localhost:4000/allClients')
     })
     .then(response => {
@@ -71,23 +59,20 @@ const headerStyle = {
       const tempClients = []
       data.forEach(client => tempClients.push(new ClientStore(client)))
       clients.list = tempClients;
-      
-      console.log(data.length);
-
     })
   }, [])
 
   const handleTransfer = (fieldToUpdate, value, route) => {
 
-    const {firstName, surname} = state
-    const clientId = clients.findClientIdByName(firstName, surname)
+    // const {firstName, surname} = state
+    // const clientId = clients.findClientIdByName(firstName, surname)
     const transferInfo = {
       clientId: state.id,
       [fieldToUpdate]: value
     }
 
     console.log('transfer data is ', transferInfo, ' and route is ', route );
-    // axios.put(`http://localhost:4000/transfer/${route}`, transferInfo);
+    axios.put(`http://localhost:4000/transfer/${route}`, transferInfo);
   }
 
   const handleChange = event => {
@@ -160,7 +145,6 @@ const headerStyle = {
         <Button variant="contained" onClick={() => handleTransfer('emailTypeId', state.chosenEmailType, 'emailType')}>Send</Button>
       </div>
       <div style={innerDivStyle}>
-        {/* <FormLabel style={labelStyle}>Declare Sale! </FormLabel> */}
         <Button variant="contained" onClick={() => handleTransfer('isSold', true, 'setSold')}>Declare Sale!</Button>
       </div>
     </div>

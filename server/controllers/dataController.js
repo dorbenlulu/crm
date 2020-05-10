@@ -1,4 +1,3 @@
-const validationHandler = require('../validations/validationHandler')
 const queries = require('../db/queries')
 
 exports.getAllClients = async (req, res, next) => {
@@ -104,5 +103,17 @@ exports.getTopSales = async (req, res, next) => {
     } catch (err) {
         console.log("in getTopSales(): error is ", err);
         next(err);
+    }
+}
+
+exports.updateClient = async (req, res, next) => {
+
+    const clientToUpdate = req.body
+    try {
+        const updatedClient = await queries.updateClient(clientToUpdate)
+        res.status(200).send(updatedClient)
+    } catch (err) {
+        console.log("in updateClient(): error is ", err);
+        next(err)
     }
 }

@@ -287,6 +287,23 @@ exports.findSalesByEmailType = async () => {
     throw err;
   }
 };
+
+exports.updateClient = async (clientToUpdate) => {
+  const updateClientQuery = `
+  UPDATE clients
+  SET name = '${clientToUpdate.firstName} ${clientToUpdate.surname}'
+  WHERE id = ${clientToUpdate.id}
+  `
+
+  try {
+    const result = await sequelize.query(updateClientQuery);
+    console.log(`In updateClientQuery(): result is `, result[0]);
+    return result[0];
+  } catch (err) {
+    console.log(`In updateClientQuery(): error is `, err);
+    throw err
+  }
+}
 /***************************************************************************************/
 
 exports.findClientById = async userId => {

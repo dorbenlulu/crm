@@ -174,7 +174,7 @@ const Clients = observer((props) => {
               ? clients.list.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               : clients.list
             ).map(client => { return (
-                <Popup key={client.email} trigger={<TableRow key={client.id} >
+                <Popup key={client.id} trigger={<TableRow key={client.id} >
                 <TableCell component="th" align="center" scope="row">
                   {client.firstName}
                 </TableCell>

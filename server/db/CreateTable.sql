@@ -30,12 +30,16 @@ USE crm;
   -- GROUP BY email_type.type
   -- ORDER BY num_of_orders desc
 
-  SELECT clients.id, clients.name, clients.email, clients.first_contact as firstContact, clients.sold, countries.name as country, owners.name as owner, email_type.type as emailType
-    FROM clients, owners, countries, email_type 
-    WHERE clients.owner_id = owners.id
-    AND clients.email_type = email_type.id
-    AND clients.country_id = countries.id
-    ORDER BY clients.id
+  -- SELECT clients.id, clients.name, clients.email, clients.first_contact as firstContact, clients.sold, countries.name as country, owners.name as owner, email_type.type as emailType
+  --   FROM clients, owners, countries, email_type 
+  --   WHERE clients.owner_id = owners.id
+  --   AND clients.email_type = email_type.id
+  --   AND clients.country_id = countries.id
+  --   ORDER BY clients.id
 
+SELECT clients.id, clients.name as fullName, countries.name as countryName 
+  FROM clients, countries
+  WHERE clients.country_id = countries.id 
+  AND clients.id = 148
 
     -- DELETE FROM clients WHERE clients.name = "Liel Bach";

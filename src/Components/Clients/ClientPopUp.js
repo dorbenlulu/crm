@@ -1,33 +1,39 @@
-import React, { useState, useEffect } from "react";
-import { useForm } from "react-hook-form";
+import React, { useContext } from "react";
+import StoreContext from '../../Helpers/storeProvider'
 import useSignUpForm from "./CustomHooks";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import axios from "axios";
 const ClientPopUp = ({ client, close }) => {
-  // const [register, handleSubmit] = useForm();
-  // const [firstName, setFirstName] = useState('')
-  // const [surname, setSurname] = useState('')
-  // const [country, setCountry] = useState('')
 
+  const clients = useContext(StoreContext)
   const signup = async () => {
-    console.log(`User Created!
-               Name: ${inputs.firstName} ${inputs.surname}
-               Email: ${inputs.country}`);
-
+    
     const clientToUpdate = {
       id: client.id,
-      firstName: inputs.firstName ? inputs.firstName : client.firstname,
+      firstName: inputs.firstName ? inputs.firstName : client.firstName,
       surname: inputs.surname ? inputs.surname : client.surname,
       country: inputs.country ? inputs.country : client.country
     };
-
+    
+    console.log(`form details are
+               Name: ${inputs.firstName} ${inputs.surname}
+               Country: ${inputs.country}`);
+    console.log(`clientToUpdate is
+               Name: ${clientToUpdate.firstName} ${clientToUpdate.surname}
+               Country: ${clientToUpdate.country}`);
     try {
       const response = await axios.put(
         "http://localhost:4000/updateClient",
         clientToUpdate
       );
       console.log("response is ", response.data);
+      const updatedClient = response.data
+      const index = clients.list.findIndex(client => client.id === updatedClient.id)
+      clients.list[index].firstName = updatedClient.fullName.split(' ')[0]
+      clients.list[index].surname = updatedClient.fullName.split(' ')[1]
+      clients.list[index].country = updatedClient.countryName
+
     } catch (err) {
       console.log("In Popup. Error is ", err);
     }
@@ -45,6 +51,7 @@ const ClientPopUp = ({ client, close }) => {
   const detailContainer = {
     margin: "5%",
   };
+
 
   console.log("client is ", client);
   return (

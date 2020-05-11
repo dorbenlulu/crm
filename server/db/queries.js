@@ -1,4 +1,4 @@
-const moment = require('moment')
+const moment = require("moment");
 const Sequelize = require("sequelize");
 const sequelize = new Sequelize("mysql://root:123456@localhost/crm");
 sequelize
@@ -6,11 +6,11 @@ sequelize
   .then(() => {
     console.log("Connection has been established successfully.");
   })
-  .catch(err => {
+  .catch((err) => {
     console.error("Unable to connect to the database:", err);
   });
 
-exports.getOwnerIdByName = async ownerName => {
+exports.getOwnerIdByName = async (ownerName) => {
   const getOwnerIdQuery = `
         SELECT id 
         FROM owners
@@ -44,7 +44,7 @@ exports.updateOwnerInClient = async (clientId, newOwnerId) => {
   }
 };
 
-exports.getEmailTypeId = async emailTypeToUpdate => {
+exports.getEmailTypeId = async (emailTypeToUpdate) => {
   const getOwnerIdQuery = `
     SELECT id 
     FROM email_type
@@ -105,7 +105,10 @@ exports.getAllClientsFromDb = async () => {
     ORDER BY clients.name`;
   try {
     const result = await sequelize.query(getAllClientsQuery);
-    console.log(`In getAllClientsFromDb(): num of clients in db is `, result[0].length);
+    console.log(
+      `In getAllClientsFromDb(): num of clients in db is `,
+      result[0].length
+    );
     return result[0];
   } catch (err) {
     console.log(`In getAllClientsFromDb(): error is `, err);
@@ -161,42 +164,41 @@ exports.findCountryIdByName = async (countryName) => {
 exports.insertNewCountry = async (countryName) => {
   const insertNewCountry = `
   INSERT INTO countries 
-  VALUES(null, "${countryName}")`
+  VALUES(null, "${countryName}")`;
 
   const getCountryId = `
   SELECT id 
   FROM countries
-  WHERE name = "${countryName}"`
+  WHERE name = "${countryName}"`;
   try {
-    const result = await sequelize.query(insertNewCountry)
+    const result = await sequelize.query(insertNewCountry);
     console.log(`In insertNewCountry(): result is `, result);
     // const countryId = await sequelize.query(getCountryId)
-    const countryId = result[0]
+    const countryId = result[0];
     console.log(`In insertNewCountry(): ${countryName} id is `, countryId);
-    return countryId
+    return countryId;
   } catch (err) {
     console.log(`In insertNewCountry(): error is `, err);
     throw err;
   }
-}
+};
 
 exports.findOrInsertCountry = async (countryName) => {
-
   try {
     let countryId = await exports.findCountryIdByName(countryName);
-    console.log('in findOrInsertCountry(): countryId is ', countryId);
+    console.log("in findOrInsertCountry(): countryId is ", countryId);
     if (!countryId) {
-      countryId = await exports.insertNewCountry(countryName)
+      countryId = await exports.insertNewCountry(countryName);
     } else {
-      countryId = countryId.id
+      countryId = countryId.id;
     }
 
-    return countryId
+    return countryId;
   } catch (err) {
     console.log(`In findOrInsertCountry(): error is `, err);
     throw err;
   }
-}; 
+};
 
 exports.findOwnerIdByName = async (ownerName) => {
   const findOwnerIdByName = `
@@ -214,12 +216,14 @@ exports.findOwnerIdByName = async (ownerName) => {
   }
 };
 
-exports.addNewClientToDb = async clientToAdd => {
+exports.addNewClientToDb = async (clientToAdd) => {
   const { name, ownerId, countryId } = clientToAdd;
 
   const insertNewClientQuery = `
     INSERT INTO clients
-    VALUES(null, "${name}", "No Email", "${moment(new Date()).format("YYYY-MM-DD HH:mm:ss")}", 2, 0, ${ownerId}, ${countryId});`;
+    VALUES(null, "${name}", "No Email", "${moment(new Date()).format(
+    "YYYY-MM-DD HH:mm:ss"
+  )}", 2, 0, ${ownerId}, ${countryId});`;
 
   try {
     const result = await sequelize.query(insertNewClientQuery);
@@ -237,8 +241,7 @@ exports.findSalesByOwners = async () => {
   FROM clients, owners
   WHERE clients.owner_id = owners.id AND clients.sold = 1
   GROUP BY owners.name
-  ORDER BY num_of_orders desc`
-
+  ORDER BY num_of_orders desc`;
 
   try {
     const result = await sequelize.query(getTopOwnersQuery);
@@ -256,8 +259,7 @@ exports.findSalesByCountries = async () => {
   FROM clients, countries
   WHERE clients.country_id = countries.id AND clients.sold = 1
   GROUP BY countries.name
-  ORDER BY num_of_orders desc`
-
+  ORDER BY num_of_orders desc`;
 
   try {
     const result = await sequelize.query(getTopCountriesQuery);
@@ -275,8 +277,7 @@ exports.findSalesByEmailType = async () => {
   FROM clients, email_type
   WHERE clients.email_type = email_type.id AND clients.sold = 1
   GROUP BY email_type.type
-  ORDER BY num_of_orders desc`
-
+  ORDER BY num_of_orders desc`;
 
   try {
     const result = await sequelize.query(findSalesByEmailTypeQuery);
@@ -289,24 +290,43 @@ exports.findSalesByEmailType = async () => {
 };
 
 exports.updateClient = async (clientToUpdate) => {
-  const updateClientQuery = `
-  UPDATE clients
-  SET name = '${clientToUpdate.firstName} ${clientToUpdate.surname}'
-  WHERE id = ${clientToUpdate.id}
-  `
-
   try {
+    const countryId = await exports.findOrInsertCountry(clientToUpdate.country);
+    const updateClientQuery = `
+      UPDATE clients
+      SET name = '${clientToUpdate.firstName} ${clientToUpdate.surname}', country_id = ${countryId}
+      WHERE id = ${clientToUpdate.id}
+      `;
     const result = await sequelize.query(updateClientQuery);
-    console.log(`In updateClientQuery(): result is `, result[0]);
-    return result[0];
+    const updatedClient = await exports.findFullClientDetails(
+      clientToUpdate.id
+    );
+    console.log(`In updateClientQuery(): updatedClient is `, updatedClient);
+    return updatedClient;
   } catch (err) {
     console.log(`In updateClientQuery(): error is `, err);
-    throw err
+    throw err;
   }
-}
+};
+
+exports.findFullClientDetails = async (clientId) => {
+  const findFullCLientDetailsQuery = `
+  SELECT clients.id, clients.name as fullName, countries.name as countryName 
+  FROM clients, countries
+  WHERE clients.country_id = countries.id 
+  AND clients.id = ${clientId}`;
+  try {
+    const clientDetails = await sequelize.query(findFullCLientDetailsQuery);
+    console.log("In findFullClientDetails(): result is ", clientDetails[0][0]);
+    return clientDetails[0][0];
+  } catch (err) {
+    console.log("In findFullClientDetails(): err is ", err);
+    throw err;
+  }
+};
 /***************************************************************************************/
 
-exports.findClientById = async userId => {
+exports.findClientById = async (userId) => {
   const findClientQuery = `
         SELECT * 
         FROM clients
@@ -316,11 +336,11 @@ exports.findClientById = async userId => {
   console.log(`In findClientById(): client is `, client[0][0]);
 };
 
-exports.insert = function(url, description) {
+exports.insert = function (url, description) {
   const request = new Request(
     `INSERT INTO ImgSchema.Images (url, description) OUTPUT INSERTED.Id VALUES ('${url}', '${description}');`,
 
-    function(err, rowCount) {
+    function (err, rowCount) {
       if (err) {
         console.log(err);
       } else {
@@ -335,11 +355,11 @@ exports.insert = function(url, description) {
   connection.execSql(request);
 };
 
-exports.getData = function(callback) {
+exports.getData = function (callback) {
   const request = new Request(
     `SELECT url, description FROM ImgSchema.Images;`,
 
-    function(err, rowCount, rows) {
+    function (err, rowCount, rows) {
       if (err) {
         console.log(err);
       } else {
@@ -350,12 +370,12 @@ exports.getData = function(callback) {
 
   const newResults = [];
 
-  request.on("row", function(columns) {
+  request.on("row", function (columns) {
     let results = [];
-    columns.forEach(function(column) {
+    columns.forEach(function (column) {
       results.push({
         col: column.metadata.colName,
-        val: column.value
+        val: column.value,
       });
     });
 

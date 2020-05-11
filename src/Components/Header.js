@@ -1,11 +1,11 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
+import React, { useEffect } from "react";
+import PropTypes from "prop-types";
+import { makeStyles } from "@material-ui/core/styles";
+import AppBar from "@material-ui/core/AppBar";
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
+import Typography from "@material-ui/core/Typography";
+import Box from "@material-ui/core/Box";
 import { withRouter } from "react-router-dom";
 
 function TabPanel(props) {
@@ -34,35 +34,66 @@ TabPanel.propTypes = {
 function a11yProps(index) {
   return {
     id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
+    "aria-controls": `simple-tabpanel-${index}`,
   };
 }
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper,
   },
 }));
 
- function SimpleTabs(props) {
+function SimpleTabs(props) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
+    console.log(newValue);
     setValue(newValue);
   };
 
-//   console.log(props.history);
-  
+  useEffect(() => {
+    const locations = {
+      "/": 0,
+      "/clients": 1,
+      "/actions": 2,
+      "/analytics": 3
+    }
+
+    const currentLocation = props.history.location.pathname
+    const value = locations[currentLocation]
+    setValue(value)
+  }, [])
   return (
     <div className={classes.root}>
       <AppBar position="static">
-        <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
-          <Tab label="Home" {...a11yProps(0)} onClick={() => props.history.push('/')}/>
-          <Tab label="Clients" {...a11yProps(0)} onClick={() => props.history.push('/clients')}/>
-          <Tab label="Actions" {...a11yProps(1)} onClick={() => props.history.push('/actions')}/>
-          <Tab label="Analytics" {...a11yProps(2)} onClick={() => props.history.push('/analytics')}/>
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          aria-label="simple tabs example"
+        >
+          <Tab
+            label="Home"
+            {...a11yProps(0)}
+            onClick={() => props.history.push("/")}
+          />
+          <Tab
+            label="Clients"
+            {...a11yProps(0)}
+            onClick={() => props.history.push("/clients")}
+          />
+          <Tab
+            label="Actions"
+            {...a11yProps(1)}
+            onClick={() => props.history.push("/actions")}
+          />
+          <Tab
+            label="Analytics"
+            {...a11yProps(2)}
+            onClick={() => props.history.push("/analytics")}
+          />
         </Tabs>
       </AppBar>
     </div>
@@ -80,4 +111,4 @@ const useStyles = makeStyles(theme => ({
       </AppBar>
     </div>
 */
-export default withRouter(SimpleTabs)
+export default withRouter(SimpleTabs);

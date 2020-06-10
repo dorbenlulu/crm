@@ -26,13 +26,14 @@ const Home = () => {
     borderRadius: 10,
     boxShadow:
       "0 4px 8px 0 rgba(0, 0, 0, 0.9), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
+    overflow: "auto",
+    lineHeight: "4vh",
   };
 
   const paragraphStyle = {
     paddingLeft: "2vw",
     paddingRight: "2vw",
-    lineHeight: "4vh",
-    textAlign: "left",
+    textAlign: "left"
   };
 
   return (
@@ -40,11 +41,11 @@ const Home = () => {
       <div style={container}>
         <h1>Welcome To My CRM</h1>
         <div style={paragraphStyle}>
-          <p style={{ fontSize: "2vw" }}>
+          <p style={{ fontSize: "1.75rem" }}>
             This is a CRM demo project made by Dor Ben Lulu. Hope you will enjoy
             it!
           </p>
-          <ol style={{ fontSize: "2vw" }}>
+          <ol style={{ fontSize: "1.75rem" }}>
             <li>
               To view the client's list, press <b>'Clients'</b>.
             </li>
